@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyar ka Bandhan - Raksha Bandhan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            color: #ffd700;
+            background: #1a1a1a;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+        /* Banner Styling */
+        .banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(45deg, #ff33cc, #00ccff, #ffcc00, #ff0066);
+            color: #fff;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5em;
+            padding: 6px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 1000;
+            animation: scrollText 15s linear infinite;
+        }
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        /* Common Section Styles */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+            background: #1a1a1a;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            border: 5px solid transparent;
+            background-clip: padding-box;
+            border-image: linear-gradient(45deg, #ffd700, #ff69b4, #ff1493, #ffd700) 1;
+            animation: borderGlow 3s infinite;
+        }
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Enhanced Border Animation for Other Sections */
+        @keyframes borderGlow {
+            0% { border-image: linear-gradient(45deg, #ffd700, #ff69b4, #ff1493, #ffd700) 1; }
+            50% { border-image: linear-gradient(45deg, #ff1493, #ffd700, #ff69b4, #ff1493) 1; }
+            100% { border-image: linear-gradient(45deg, #ffd700, #ff69b4, #ff1493, #ffd700) 1; }
+        }
+        /* Page Sparkle Animation */
+        @keyframes pageSparkle {
+            0% { box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.4), 0 0 20px rgba(255, 105, 180, 0.3); }
+            50% { box-shadow: inset 0 0 25px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 105, 180, 0.5); }
+            100% { box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.4), 0 0 20px rgba(255, 105, 180, 0.3); }
+        }
+        .section.active {
+            animation: pageSparkle 3s infinite;
+        }
+        /* Butterfly and Decorative Heart Animation */
+        .butterfly, .heart:not(.video-item .heart) {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            opacity: 0.7;
+            z-index: 1;
+        }
+        .butterfly {
+            background: url('https://img.icons8.com/emoji/48/000000/butterfly-emoji.png') no-repeat center/cover;
+            animation: flutter 8s infinite ease-in-out;
+        }
+        .heart:not(.video-item .heart) {
+            background: url('https://img.icons8.com/emoji/48/000000/heart-suit.png') no-repeat center/cover;
+            animation: flutterHeart 7s infinite ease-in-out;
+        }
+        .butterfly:nth-child(2), .heart:not(.video-item .heart):nth-child(3) { top: 10%; left: 10%; animation-delay: 0s; }
+        .butterfly:nth-child(4), .heart:not(.video-item .heart):nth-child(5) { top: 20%; left: 80%; animation-delay: 1s; }
+        .butterfly:nth-child(6), .heart:not(.video-item .heart):nth-child(7) { top: 30%; left: 20%; animation-delay: 2s; }
+        .butterfly:nth-child(8), .heart:not(.video-item .heart):nth-child(9) { top: 40%; left: 70%; animation-delay: 3s; }
+        .butterfly:nth-child(10), .heart:not(.video-item .heart):nth-child(11) { top: 50%; left: 15%; animation-delay: 4s; }
+        .butterfly:nth-child(12), .heart:not(.video-item .heart):nth-child(13) { top: 60%; left: 85%; animation-delay: 5s; }
+        .butterfly:nth-child(14), .heart:not(.video-item .heart):nth-child(15) { top: 70%; left: 25%; animation-delay: 6s; }
+        .butterfly:nth-child(16), .heart:not(.video-item .heart):nth-child(17) { top: 80%; left: 75%; animation-delay: 7s; }
+        @keyframes flutter {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes flutterHeart {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-40px, -15px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        /* Top Image on Page 1 */
+        .top-image {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            margin: 20px auto 10px;
+            display: block;
+            animation: fadeIn 1s ease;
+            position: relative;
+            z-index: 10;
+        }
+        /* Page 1 Styling */
+        .section1 {
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #db7093, #ffc1cc);
+            background-size: 200% 200%;
+            animation: festiveBG 12s ease infinite;
+        }
+        @keyframes festiveBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container1 {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            backdrop-filter: blur(6px);
+            max-width: 90%;
+            animation: fadeIn 1s ease;
+            border: 3px solid #ffd700;
+            background-clip: padding-box;
+            margin-top: 140px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .section1 h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8em;
+            margin: 10px 0;
+            background: linear-gradient(45deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+        .section1 p {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.3em;
+            margin: 10px 0;
+            color: #fff0f5;
+            text-shadow: 0 0 6px rgba(255, 105, 180, 0.6);
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff0f5;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        /* Video Section Styling */
+        .video-section {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 60px;
+        }
+        video {
+            max-width: 80%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ffd700;
+            animation: fadeIn 1s ease;
+            border: 3px solid #ffd700;
+        }
+        /* Page 2 Styling */
+        .section2 {
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #db7093, #ffc1cc);
+            background-size: 200% 200%;
+            animation: festiveBG 12s ease infinite;
+        }
+        .section2 .content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            max-width: 90%;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease;
+            border: 3px solid #ffd700;
+            background-clip: padding-box;
+            margin-top: 60px;
+        }
+        .section2 h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+            margin: 10px 0;
+            background: linear-gradient(45deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+        .section2 p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #fff0f5;
+            padding: 10px;
+            border-radius: 8px;
+            text-shadow: 0 0 6px rgba(255, 105, 180, 0.6);
+        }
+        .image-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: nowrap;
+        }
+        .image-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounceIn 1s ease;
+            flex: 0 0 auto;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .image-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 4px solid #ffd700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 105, 180, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2));
+            animation: sparkle 3s infinite;
+        }
+        .image-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 18px rgba(255, 215, 0, 1), 0 0 12px rgba(255, 105, 180, 0.7);
+        }
+        .reveal-btn {
+            padding: 6px 12px;
+            font-size: 0.8em;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff0f5;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 8px;
+            animation: sparkle 3s infinite;
+        }
+        .reveal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #ff69b4;
+        }
+        .next-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff0f5;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            animation: sparkle 3s infinite;
+        }
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        /* Page 3 Styling */
+        .section3 {
+            background: #1a1a1a;
+        }
+        .section3 .content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            max-width: 90%;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease;
+            border: 3px solid #ffd700;
+            background-clip: padding-box;
+            margin-top: 60px;
+        }
+        .message-box {
+            font-size: 1.2em;
+            color: #fff0f5;
+            text-shadow: 1px 1px 3px #ff4500;
+            font-style: italic;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2));
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            max-width: 80%;
+            animation: sparkle 3s infinite;
+        }
+        .message-box.active {
+            display: block;
+            opacity: 1;
+        }
+        .back-btn {
+            padding: 6px 10px;
+            font-size: 0.8em;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff0f5;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: sparkle 3s infinite;
+        }
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        .about-btn {
+            padding: 4px 8px;
+            font-size: 0.7em;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff0f5;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: sparkle 3s infinite;
+            text-decoration: none;
+        }
+        .about-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        .button-container {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        /* Page 4 Styling */
+        .section4 {
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #db7093, #ffc1cc);
+            background-size: 200% 200%;
+            animation: festiveBG 12s ease infinite;
+            border-image: linear-gradient(45deg, #ff00ff, #00ffcc, #ff66cc, #33ccff) 1;
+            animation: borderGlowPage4 3s infinite;
+        }
+        @keyframes borderGlowPage4 {
+            0% { border-image: linear-gradient(45deg, #ff00ff, #00ffcc, #ff66cc, #33ccff) 1; }
+            50% { border-image: linear-gradient(45deg, #33ccff, #ff66cc, #00ffcc, #ff00ff) 1; }
+            100% { border-image: linear-gradient(45deg, #ff00ff, #00ffcc, #ff66cc, #33ccff) 1; }
+        }
+        .section4 .content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            max-width: 90%;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease;
+            border: 3px solid #ffd700;
+            background-clip: padding-box;
+            margin-top: 60px;
+        }
+        .section4 .date {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5em;
+            color: #fff0f5;
+            margin: 10px 0 5px;
+            text-shadow: 0 0 6px rgba(255, 105, 180, 0.6);
+        }
+        .section4 h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+            margin: 5px 0 20px;
+            background: linear-gradient(45deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+        .video-row {
+            margin: 20px auto;
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+            background: rgba(255, 245, 245, 0.8);
+            border-radius: 15px;
+            width: 850px;
+            max-width: 100%;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: #ff69b4 transparent;
+        }
+        .video-row::-webkit-scrollbar {
+            height: 8px;
+        }
+        .video-row::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+        }
+        .video-item {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+            flex: 0 0 auto;
+            text-align: center;
+        }
+        .video-item video {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 4px solid #ffd700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 105, 180, 0.5);
+            animation: sparkle 3s infinite;
+            cursor: pointer;
+        }
+        .video-item video:hover {
+            transform: scale(1.1);
+        }
+        .video-item .heart {
+            display: block;
+            width: 20px;
+            height: 20px;
+            margin: 5px auto 0;
+            cursor: pointer;
+            background: url('https://img.icons8.com/ios/50/000000/hearts.png') no-repeat center;
+            background-size: contain;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        .video-item .heart.liked {
+            background: url('https://img.icons8.com/ios-filled/50/ff0000/hearts.png') no-repeat center;
+            background-size: contain;
+        }
+        /* Sparkle Effect for Borders */
+        @keyframes sparkle {
+            0% { box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 105, 180, 0.5); }
+            50% { box-shadow: 0 0 18px rgba(255, 215, 0, 1), 0 0 12px rgba(255, 105, 180, 0.7); }
+            100% { box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 105, 180, 0.5); }
+        }
+        /* Media Query for Responsive Design */
+        @media (max-width: 600px) {
+            .banner {
+                font-size: 1.2em;
+                padding: 4px 0;
+                animation: scrollText 12s linear infinite;
+            }
+            .top-image {
+                width: 120px;
+                height: 120px;
+                margin: 15px auto 8px;
+                border: 1px solid #ffd700;
+            }
+            .section1 h1 { font-size: 2em; }
+            .section2 h1, .section4 h1 { font-size: 1.8em; }
+            .section3 h1 { font-size: 1.8em; }
+            .section1 p, .section2 p, .message-box { font-size: 1em; }
+            .section4 .date { font-size: 1.2em; }
+            .btn, .next-btn { font-size: 0.9em; padding: 8px 15px; }
+            .back-btn {
+                padding: 4px 8px;
+                font-size: 0.7em;
+                border: 1px solid #ffd700;
+            }
+            .about-btn {
+                padding: 3px 6px;
+                font-size: 0.6em;
+                border: 1px solid #ffd700;
+            }
+            video { max-width: 90%; }
+            .image-section {
+                gap: 10px;
+                margin: 15px 0;
+                flex-wrap: nowrap;
+            }
+            .image-item img {
+                width: 90px;
+                height: 90px;
+                border: 3px solid #ffd700;
+            }
+            .reveal-btn {
+                padding: 5px 10px;
+                font-size: 0.7em;
+                border: 1px solid #ffd700;
+            }
+            .butterfly, .heart:not(.video-item .heart) {
+                width: 20px;
+                height: 20px;
+            }
+            .container1 {
+                padding: 15px;
+                max-width: 95%;
+                border: 2px solid #ffd700;
+                margin-top: 110px;
+            }
+            .section2 .content, .section3 .content, .section4 .content {
+                padding: 15px;
+                max-width: 95%;
+                border: 2px solid #ffd700;
+                margin-top: 50px;
+            }
+            .section {
+                border-width: 3px;
+            }
+            .video-row {
+                width: 400px;
+                gap: 10px;
+                max-width: 90%;
+            }
+            .video-item video {
+                width: 120px;
+                height: 120px;
+                border: 3px solid #ffd700;
+            }
+            .video-item .heart {
+                width: 15px;
+                height: 15px;
+                margin: 3px auto 0;
+            }
+            .button-container {
+                gap: 6px;
+                margin-top: 15px;
+            }
+            .video-section {
+                padding-top: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="section section1 active">
+        <div class="banner">Happy Raksha Bndhan All My Sisters</div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <img src="image4.jpg" alt="Raksha Bandhan Image" class="top-image">
+        <div class="container1">
+            <h1>Pyar ka Bandhan</h1>
+            <p>Ek daga bhai-behen ke rishte ko mazboot banaye, Raksha Bandhan ki khushiyan manayein!</p>
+            <button class="btn" onclick="showVideo()">Click Me</button>
+        </div>
+    </div>
+    <div class="section video-section">
+        <div class="banner">Happy Raksha Bandhan and All My Sisters</div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <video muted id="videoPlayer" onended="showSection2()">
+            <source src="video1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="section section2">
+        <div class="banner">Happy Raksha Bandhan All My Sisters</div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="content">
+            <h1>Happy Raksha Bandhan</h1>
+            <p>Pyaar bhari yeh bandhan ko jashn manayein!</p>
+            <div class="image-section" id="imageContainer">
+                <div class="image-item">
+                    <img src="image1.jpg" alt="Image 1">
+                    <button class="reveal-btn" onclick="revealMessage(1, '🌸 The festival of Rakhi has come today,\nBringing your love in a special way.\n🎀 Your thread tied on my hand so tight,\nGuides me through day and night.\n\n🌟 You are my greatest treasure, my pride,\nRakhi day fills my heart with joy inside.\n💖 Dear sister, your love is so pure,\nOur bond will forever endure.')">Reveal Message</button>
+                </div>
+                <div class="image-item">
+                    <img src="image2.jpg" alt="Image 2">
+                    <button class="reveal-btn" onclick="revealMessage(2, '🌺 Rakhi festival lights up our home,\nWith your love, I’ll never roam.\n🎀 Your smile is my happiness each day,\nYour presence takes my fears away.\n\n🌟 Every year this thread we tie,\nFills our hearts with love so high.\n💖 Sister, you are my pride and joy,\nOur love will last, nothing can destroy.')">Reveal Message</button>
+                </div>
+                <div class="image-item">
+                    <img src="image3.jpg" alt="Image 3">
+                    <button class="reveal-btn" onclick="revealMessage(3, '🌹 Rakhi day has arrived with cheer,\nYour love for me is always near.\n🎀 Your support gives me strength to stand,\nA helping hand in every land.\n\n🌟 You’re my best friend, so sweet and true,\nRakhi reminds me of our bond so new.\n💖 Sister, your blessings I always seek,\nWith you, my life feels complete.')">Reveal Message</button>
+                </div>
+            </div>
+            <button class="next-btn" onclick="showSection4()">Next</button>
+        </div>
+    </div>
+    <div class="section section3">
+        <div class="banner">Happy Raksha Bandhan All My Sisters</div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="content">
+            <h1>Special Messages</h1>
+            <div class="message-box" id="message1"></div>
+            <div class="message-box" id="message2"></div>
+            <div class="message-box" id="message3"></div>
+            <button class="back-btn" onclick="showSection2()">Back</button>
+        </div>
+    </div>
+    <div class="section section4">
+        <div class="banner">Happy Raksha Bandhan All My Sisters</div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="butterfly"></div>
+        <div class="heart"></div>
+        <div class="content">
+            <div class="date">9 August 2025</div>
+            <h1>Happy Raksha Bandhan</h1>
+            <div class="video-row">
+                <div class="video-item">
+                    <video src="video2.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video3.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video4.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video5.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+            </div>
+            <div class="video-row">
+                <div class="video-item">
+                    <video src="video6.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video7.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video8.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+                <div class="video-item">
+                    <video src="video9.mp4" class="video"></video>
+                    <div class="heart" onclick="toggleHeart(this)"></div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="back-btn" onclick="showSection2()">Back</button>
+                <a href="https://birthday-surpris.netlify.app/" target="_blank" class="about-btn">About Developer</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let revealedCount = 0;
+
+        function showVideo() {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelector('.video-section').classList.add('active');
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.currentTime = 0;
+            videoPlayer.play().catch(error => console.error('Video1 playback error:', error));
+        }
+
+        function showSection2() {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelector('.section2').classList.add('active');
+            revealedCount = 0;
+            document.querySelectorAll('.message-box').forEach(box => {
+                box.style.display = 'none';
+                box.textContent = '';
+                box.classList.remove('active');
+            });
+            pauseAllVideos();
+        }
+
+        function showSection3() {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelector('.section3').classList.add('active');
+            pauseAllVideos();
+        }
+
+        function showSection4() {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelector('.section4').classList.add('active');
+            pauseAllVideos();
+            document.querySelectorAll('.video-row').forEach(row => {
+                row.scrollLeft = 0;
+            });
+        }
+
+        function revealMessage(index, message) {
+            revealedCount++;
+            const messageDiv = document.getElementById(`message${index}`);
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelector('.section3').classList.add('active');
+            messageDiv.style.display = 'block';
+            messageDiv.classList.add('active');
+            typeMessage(messageDiv, message);
+            pauseAllVideos();
+        }
+
+        function typeMessage(element, message) {
+            element.textContent = '';
+            let i = 0;
+            const chars = [...message];
+            const speed = 50;
+            function type() {
+                if (i < chars.length) {
+                    element.textContent += chars[i];
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            for (let id = 1; id <= 1000; id++) {
+                clearTimeout(id);
+            }
+            type();
+        }
+
+        function toggleHeart(heart) {
+            heart.classList.toggle('liked');
+        }
+
+        function pauseAllVideos() {
+            document.querySelectorAll('.section4 video').forEach(video => {
+                video.pause();
+                video.currentTime = 0;
+            });
+        }
+
+        function toggleVideo(video) {
+            if (video.paused) {
+                video.play().then(() => {
+                    pauseAllVideos();
+                    video.play();
+                }).catch(error => {
+                    console.error(`Error playing video ${video.src}:`, error);
+                    alert(`Failed to play video: ${video.src.split('/').pop()}. Please ensure the video file is accessible and in a supported format.`);
+                });
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.section4 video').forEach(video => {
+                video.addEventListener('click', () => toggleVideo(video));
+                video.addEventListener('error', () => {
+                    console.error(`Error loading video ${video.src}`);
+                    alert(`Failed to load video: ${video.src.split('/').pop()}. Please check the file path or format.`);
+                });
+            });
+            document.querySelectorAll('.video-item .heart').forEach(heart => {
+                heart.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
